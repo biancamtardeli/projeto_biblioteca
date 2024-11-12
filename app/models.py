@@ -19,69 +19,96 @@ class Cidade(models.Model):
 
     def __str__(self):
         return f'{self.nome}/{self.UF} '
-    
-
-class Usuario(models.Model):
-    nome = models.CharField(max_length=50)
-    cpf = models.CharField(max_length=11)
-    data_nasc = models.DateField(verbose_name='Data de Nascimento')
-    email = models.EmailField(max_length=20)
-    telefone = models.CharField(max_length=13)
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name_plural='Usuários'
-
-    def __str__(self):
-        return f'{self.nome} {self.cidade}'
 
 
 class Genero(models.Model):
-    nome = models.CharField(max_length=20)
+    nome = models.CharField(max_length=100, verbose_name="Gênero")
+                            
+    def __str__(self):
+        return self.nome
 
     class Meta:
-        verbose_name_plural='Gêneros'
+        verbose_name = "Gênero"
+        verbose_name_plural = "Gêneros"
+
+
+#Superclasse
+class Pessoa(models.Model):
+    nome = models.CharField(max_length=255, default='')
+    email = models.CharField(max_length=255, default='')
+    telefone = models.CharField(default='')
+    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return self.nome
 
-
-class Editora(models.Model):
-    nome = models.CharField(max_length=50)
-    site = models.URLField(max_length=50)
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
+#Superclasse e subclasse  
+class PessoaFisica(Pessoa):
+    cpf = models.CharField(default='')
+    data_nasc = models.DateField(default='2000-01-01')
 
     class Meta:
+        verbose_name = "Pessoa Física"
+        verbose_name_plural = "Pessoas Físicas"
+
+    def __str__(self):
+        return self.nome
+
+#Superclasse e subclasse    
+class PessoaJuridica(Pessoa):
+    cnpj = models.CharField(default='')
+    razao_social = models.CharField(max_length=255, default='')
+    data_fundacao = models.DateField(default='2000-01-01')
+
+    class Meta:
+        abstract = True
+    
+#Subclasse  
+class Autor(PessoaFisica):
+    pass
+
+    class Meta:
+        verbose_name='Autor'
+        verbose_name_plural='Autores'
+
+#Subclasse
+class Editora(PessoaJuridica):
+    site = models.URLField(max_length=50)
+
+    class Meta:
+        verbose_name='Editora'
         verbose_name_plural='Editoras'
 
     def __str__(self):
-        return f'{self.nome} {self.cidade}'
+        return f'{self.nome} {self.cidade}'  
 
-
-class Autor(models.Model):
-    nome = models.CharField(max_length=50)
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
+#Subclasse
+class Usuario(PessoaFisica):
+    pass
 
     class Meta:
-        verbose_name_plural='Autores'
-
-    def __str__(self):
-        return f'{self.nome} {self.cidade}'
+        verbose_name='Usuario'
+        verbose_name_plural='Usuarios'
     
 
 class Livro(models.Model):
-    nome = models.CharField(max_length=50)
-    genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
-    autor = models.ForeignKey(Autor, on_delete=models.CASCADE)
-    editora = models.ForeignKey(Editora, on_delete=models.CASCADE)
-    preco = models.DecimalField(max_digits=10, decimal_places=2)
-    datapublicacao = models.DateField(verbose_name='Data de Publicação')
+    nome = models.CharField(max_length=100, verbose_name="Nome do livro")
+    autor = models.ForeignKey(Autor, on_delete=models.CASCADE, verbose_name="Autor do livro")
+    editora = models.ForeignKey(Editora, on_delete=models.CASCADE, verbose_name="Editora do livro")
+    genero = models.ForeignKey(Genero,on_delete=models.CASCADE, verbose_name="Gênero do livro")
+    preco = models.IntegerField(verbose_name="Preço do livro")
+    data_plub = models.DateField(verbose_name="Data de publicação do livro")
+    status = models.BooleanField(verbose_name="Status do livro")
 
     class Meta:
-        verbose_name_plural='Livros'
+        verbose_name = "Livro"
+        verbose_name_plural = "Livros"
 
     def __str__(self):
-        return f'{self.nome} {self.genero} {self.autor} {self.editora} {self.preco} {self.datapublicacao}'
+        return f'{self.nome} {self.autor}'
 
 
 class Emprestimo(models.Model):
@@ -91,6 +118,7 @@ class Emprestimo(models.Model):
     datadevolucao = models.DateField(verbose_name='Data de Devolução')
 
     class Meta:
+        verbose_name = "Emprestimo"
         verbose_name_plural='Empréstimos'
 
     def __str__(self):
