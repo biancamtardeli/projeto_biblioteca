@@ -18,16 +18,19 @@ class AutorAdmin(admin.ModelAdmin):
     inlines = [LivroInline] 
 
 class EditoraAdmin(admin.ModelAdmin):
+    model = Editora
     inlines = [LivroInline] 
 
 class GeneroAdmin(admin.ModelAdmin):
+    model = Genero
     inlines = [LivroInline]
 
 class EmprestimoInline(admin.TabularInline):
     model = Emprestimo
     extra = 1 
 
-class LivroAdmin(admin.ModelAdmin): 
+class LivroAdmin(admin.ModelAdmin):
+    model = Livro
     inlines = [EmprestimoInline] 
 
 admin.site.register(UF, UFAdmin)
