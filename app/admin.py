@@ -25,20 +25,20 @@ class GeneroAdmin(admin.ModelAdmin):
     model = Genero
     inlines = [LivroInline]
 
-class EmprestimoInline(admin.TabularInline):
-    model = Emprestimo
+class LivroInline(admin.TabularInline):
+    model = Livro
     extra = 1 
 
-class LivroAdmin(admin.ModelAdmin):
-    model = Livro
-    inlines = [EmprestimoInline] 
+class EmprestimoAdmin(admin.ModelAdmin):
+    model = Emprestimo
+    inlines = [LivroInline] 
 
 admin.site.register(UF, UFAdmin)
 admin.site.register(Cidade)
 admin.site.register(Usuario)
 admin.site.register(Genero, GeneroAdmin)
 admin.site.register(Editora, EditoraAdmin)
-admin.site.register(Livro, LivroAdmin)
+admin.site.register(Livro)
 admin.site.register(Autor, AutorAdmin)
-admin.site.register(Emprestimo)
+admin.site.register(Emprestimo, EmprestimoAdmin)
 
