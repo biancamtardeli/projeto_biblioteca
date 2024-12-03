@@ -41,16 +41,25 @@
               </li>
           </ul>
         </div>
-      </nav>    
+      </nav> 
 
   <div class="container mt-5">
-    <div class="jumbotron text-center">
-      <h1 class="display-4">Cadastro de Biblioteca</h1>
-      <p class="lead">Seja Bem Vindo(A), {{user.username}}</p>
-      <p class="lead">Use a navbar para navegar pelo sistema.</p>
-    </div>
+    <h1 class="mb-4">UFs</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Sigla</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ufs in ufs %}
+            <tr>
+                <td>{{ ufs.sigla }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
   </div>
-  
   <!-- Incluindo jQuery e Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

@@ -41,16 +41,39 @@
               </li>
           </ul>
         </div>
-      </nav>    
+      </nav> 
 
   <div class="container mt-5">
-    <div class="jumbotron text-center">
-      <h1 class="display-4">Cadastro de Biblioteca</h1>
-      <p class="lead">Seja Bem Vindo(A), {{user.username}}</p>
-      <p class="lead">Use a navbar para navegar pelo sistema.</p>
-    </div>
+    <h1 class="mb-4">Livros</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Título</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Editora</th>
+                <th scope="col">Gênero</th>
+                <th scope="col">Empréstimo</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Data de Publicação</th>
+                <th scope="col">Emprestado?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livros in livros %}
+            <tr>
+                <td>{{ livros.nome }}</td>
+                <td>{{ livros.autor }}</td>
+                <td>{{ livros.editora }}</td>
+                <td>{{ livros.genero }}</td>
+                <td>{{ livros.emprestimo }}</td>
+                <td>{{ livros.preco }}</td>
+                <td>{{ livros.data_plub }}</td>
+                <td>{{ livros.status }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
   </div>
-  
   <!-- Incluindo jQuery e Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
